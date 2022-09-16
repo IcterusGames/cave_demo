@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://do2eth4mwfbr7"]
+
+[ext_resource type="PackedScene" uid="uid://rgiob1o411bo" path="res://mesh/plant_leaf_01.glb" id="1_0wtks"]
+[ext_resource type="Material" uid="uid://curxvdj2anrp8" path="res://materials/plant_leaf_01.material" id="3_pchqi"]
+
+[node name="plant_leaf_01" instance=ExtResource("1_0wtks")]
+
+[node name="PlantLeaf" parent="." index="0"]
+surface_material_override/0 = ExtResource("3_pchqi")

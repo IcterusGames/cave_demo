@@ -1,0 +1,52 @@
+[gd_scene load_steps=8 format=3 uid="uid://dom6cqfyrbbmy"]
+
+[ext_resource type="Material" uid="uid://cwxsvuj5cg6kh" path="res://materials/fireflys_body.material" id="1_ebt85"]
+[ext_resource type="Material" uid="uid://i2jpbgs7vcso" path="res://materials/fireflys_glow.material" id="1_t0nai"]
+
+[sub_resource type="Gradient" id="Gradient_gemrv"]
+offsets = PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_8ijpk"]
+gradient = SubResource("Gradient_gemrv")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticlesMaterial_xbbtq"]
+lifetime_randomness = 0.5
+emission_shape = 1
+emission_sphere_radius = 3.0
+particle_flag_align_y = true
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 1.0
+initial_velocity_max = 2.0
+linear_accel_min = 1.0
+linear_accel_max = 1.0
+color_ramp = SubResource("GradientTexture1D_8ijpk")
+turbulence_enabled = true
+turbulence_noise_strength = 2.0
+turbulence_noise_scale = 2.0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_smewa"]
+material = ExtResource("1_ebt85")
+radius = 0.01
+height = 0.065
+radial_segments = 8
+rings = 4
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_qmbqy"]
+material = ExtResource("1_t0nai")
+size = Vector2(0.5, 0.5)
+orientation = 2
+
+[node name="Fireflys" type="Node3D"]
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+visibility_range_end = 20.0
+visibility_range_end_margin = 5.0
+visibility_range_fade_mode = 1
+lifetime = 10.0
+visibility_aabb = AABB(-5.08054, -4.26913, -5.74295, 12.751, 7.96926, 12.5315)
+process_material = SubResource("ParticlesMaterial_xbbtq")
+draw_passes = 2
+draw_pass_1 = SubResource("CapsuleMesh_smewa")
+draw_pass_2 = SubResource("PlaneMesh_qmbqy")

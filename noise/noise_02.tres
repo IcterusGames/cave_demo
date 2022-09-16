@@ -1,0 +1,7 @@
+[gd_resource type="FastNoiseLite" format=3 uid="uid://e7ybycrflntg"]
+
+[resource]
+seed = -1366129900
+frequency = 0.046
+fractal_type = 3
+cellular_return_type = 2

@@ -1,0 +1,132 @@
+[gd_scene load_steps=17 format=3 uid="uid://bt4f0fm3u8syi"]
+
+[ext_resource type="PackedScene" uid="uid://2vtjx3s30uxt" path="res://mesh/elevator.glb" id="1_2m7jd"]
+[ext_resource type="Script" path="res://objects/elevator.gd" id="2_6i660"]
+[ext_resource type="Texture2D" uid="uid://2m6nguq172uf" path="res://textures/Concrete030_Color.png" id="2_kj0kk"]
+[ext_resource type="Texture2D" uid="uid://d3citmesh4354" path="res://textures/Concrete030_Displacement.png" id="3_1s3d2"]
+[ext_resource type="Texture2D" uid="uid://oc4taonyos2b" path="res://textures/Concrete030_NormalGL.png" id="4_7rcf3"]
+[ext_resource type="Texture2D" uid="uid://c5tamas7x7i0w" path="res://textures/Concrete030_Roughness.png" id="5_cfgqn"]
+[ext_resource type="PackedScene" uid="uid://cveaeap3pxpmq" path="res://mesh/elevator_door.glb" id="6_l5vyd"]
+[ext_resource type="Texture2D" uid="uid://chrihpixv1tyd" path="res://textures/noise_01.png" id="7_047tl"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q6mph"]
+albedo_texture = ExtResource("2_kj0kk")
+roughness_texture = ExtResource("5_cfgqn")
+normal_enabled = true
+normal_texture = ExtResource("4_7rcf3")
+heightmap_enabled = true
+heightmap_scale = 1.0
+heightmap_texture = ExtResource("3_1s3d2")
+uv1_scale = Vector3(5, 5, 5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wfsib"]
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy = 0.4
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xccc1"]
+albedo_color = Color(0.447059, 0.447059, 0.447059, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e4b1m"]
+metallic = 0.3
+metallic_specular = 0.1
+metallic_texture = ExtResource("7_047tl")
+roughness_texture = ExtResource("7_047tl")
+uv1_scale = Vector3(0.7, 0.7, 0.7)
+uv1_triplanar = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wncu1"]
+albedo_color = Color(0.686275, 0.686275, 0.686275, 1)
+metallic = 0.26
+metallic_texture = ExtResource("7_047tl")
+roughness_texture = ExtResource("7_047tl")
+uv1_triplanar = true
+
+[sub_resource type="Animation" id="Animation_83ja3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("elevator_door_left:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("elevator_door_right:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 1.14)]
+}
+
+[sub_resource type="Animation" id="Animation_koggg"]
+resource_name = "open"
+length = 2.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("elevator_door_left:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2.5),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0, -0.947796)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("elevator_door_right:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2.5),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [Vector3(0, 0, 1.14), Vector3(0, 0, 2.08617)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qc50f"]
+_data = {
+"RESET": SubResource("Animation_83ja3"),
+"open": SubResource("Animation_koggg")
+}
+
+[node name="elevator" instance=ExtResource("1_2m7jd")]
+script = ExtResource("2_6i660")
+
+[node name="Elevator" parent="." index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_q6mph")
+surface_material_override/1 = SubResource("StandardMaterial3D_wfsib")
+surface_material_override/2 = SubResource("StandardMaterial3D_xccc1")
+surface_material_override/3 = SubResource("StandardMaterial3D_e4b1m")
+
+[node name="elevator_door_left" parent="." index="1" instance=ExtResource("6_l5vyd")]
+
+[node name="door" parent="elevator_door_left" index="0"]
+material_override = SubResource("StandardMaterial3D_wncu1")
+
+[node name="elevator_door_right" parent="." index="2" instance=ExtResource("6_l5vyd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.14)
+
+[node name="door" parent="elevator_door_right" index="0"]
+material_override = SubResource("StandardMaterial3D_wncu1")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="3"]
+libraries = {
+"": SubResource("AnimationLibrary_qc50f")
+}
+
+[editable path="elevator_door_left"]
+[editable path="elevator_door_right"]

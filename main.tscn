@@ -1,0 +1,60 @@
+[gd_scene load_steps=8 format=3 uid="uid://dfx0fwv7843kc"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_1wrf2"]
+[ext_resource type="FastNoiseLite" uid="uid://ca4xme3htot78" path="res://noise/noise_01.tres" id="2_pjpyc"]
+[ext_resource type="FastNoiseLite" uid="uid://e7ybycrflntg" path="res://noise/noise_02.tres" id="3_w3pje"]
+[ext_resource type="Material" uid="uid://bteh0j3tnpyb" path="res://materials/rock_037.material" id="4_ixn4e"]
+[ext_resource type="PackedScene" uid="uid://bt4f0fm3u8syi" path="res://objects/elevator.tscn" id="5_v3drd"]
+[ext_resource type="PackedScene" uid="uid://bmjue8hqbxpv5" path="res://players/free_mode.tscn" id="6_446ny"]
+
+[sub_resource type="Environment" id="Environment_vajbn"]
+background_mode = 1
+tonemap_mode = 2
+sdfgi_enabled = true
+sdfgi_y_scale = 0
+glow_enabled = true
+fog_light_color = Color(0, 0, 0, 1)
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.1
+volumetric_fog_albedo = Color(0.117647, 0.117647, 0.117647, 1)
+adjustment_enabled = true
+adjustment_brightness = 1.5
+
+[node name="MainDemo" type="Node3D"]
+script = ExtResource("1_1wrf2")
+noise = ExtResource("2_pjpyc")
+noise2 = ExtResource("3_w3pje")
+material_terrain = ExtResource("4_ixn4e")
+
+[node name="Terrain" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="Elevator" parent="." instance=ExtResource("5_v3drd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 100, 0)
+
+[node name="Player" parent="." instance=ExtResource("6_446ny")]
+unique_name_in_owner = true
+
+[node name="Label" type="Label" parent="."]
+offset_right = 202.0
+offset_bottom = 71.0
+
+[node name="LabelLoading" type="Label" parent="."]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Loading..."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TimerRebuild" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_vajbn")
+
+[connection signal="timeout" from="TimerRebuild" to="." method="_on_timer_rebuild_timeout"]

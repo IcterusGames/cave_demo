@@ -1,0 +1,37 @@
+[gd_scene load_steps=8 format=3 uid="uid://lqokh1v0unq8"]
+
+[ext_resource type="PackedScene" uid="uid://q4aifncp1hgn" path="res://mesh/plant_01.glb" id="1_yat84"]
+[ext_resource type="Material" uid="uid://c3aqxffn0obju" path="res://materials/plant_01.material" id="2_3hnrv"]
+[ext_resource type="Material" uid="uid://ddy3rwtrwsb43" path="res://materials/plant_02.material" id="3_617a4"]
+[ext_resource type="PackedScene" uid="uid://do2eth4mwfbr7" path="res://objects/plant_leaf_01.tscn" id="3_kpqph"]
+[ext_resource type="PackedScene" uid="uid://dom6cqfyrbbmy" path="res://objects/fireflys.tscn" id="4_s8yjy"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_od4it"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_10rh1"]
+emission_enabled = true
+emission = Color(1, 0.839216, 0, 1)
+emission_energy = 20.0
+
+[node name="plant_01" instance=ExtResource("1_yat84")]
+
+[node name="Plant01" parent="." index="0"]
+surface_material_override/0 = ExtResource("2_3hnrv")
+surface_material_override/1 = ExtResource("3_617a4")
+
+[node name="plant_leaf_01" parent="." index="1" instance=ExtResource("3_kpqph")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0494491, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." index="2"]
+transform = Transform3D(1.00001, 1.11759e-08, 3.22689e-09, 1.64844e-07, 1, 8.33534e-08, 4.0531e-07, 4.65661e-09, 1, 1.00148e-08, 1.43777, -0.0264442)
+layers = 512
+mesh = SubResource("SphereMesh_od4it")
+surface_material_override/0 = SubResource("StandardMaterial3D_10rh1")
+
+[node name="GPUParticlesAttractorSphere3D" type="GPUParticlesAttractorSphere3D" parent="." index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.43777, 0)
+strength = 2.0
+radius = 3.0
+
+[node name="Fireflys" parent="." index="4" instance=ExtResource("4_s8yjy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.45059, 0)
